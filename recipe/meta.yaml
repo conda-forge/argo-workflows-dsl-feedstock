@@ -7,22 +7,23 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: bca5eb74aab6fea5332d4341e354363f5e1ace48bc587a2e01314f37a7b7de6c
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
     - pip
-    - python
+    - python {{ python_min }}
+    - setuptools
   run:
     - argo-workflows >=2.1.4
     - inflection
-    - python
+    - python >={{ python_min }}
     - pyyaml
 
 test:
@@ -33,6 +34,7 @@ test:
     - pip check
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://pypi.org/project/argo-workflows-dsl/
